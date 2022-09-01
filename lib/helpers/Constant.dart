@@ -25,14 +25,14 @@ const String shareAndroidAppMessge =
 const bool showInterstitialAds = false;
 
 //To turn on/off display of floating action button
-const bool showNavigationBar = false;
+const bool showNavigationBar = true;
 
 //To show/remove splash screen
 const bool showSplashScreen = true;
 
 //To remove/display header/footer of website
 const bool hideHeader = false;
-const bool hideFooter = false;
+const bool hideFooter = true;
 
 //Ids for interstitial Ad
 const androidInterstitialAdId = 'ca-app-pub-3940256099942544/1033173712';

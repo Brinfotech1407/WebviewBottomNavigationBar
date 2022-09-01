@@ -2,13 +2,12 @@
 import 'dart:async';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:prime_web/screens/webpage_selection_screen.dart';
 import 'package:provider/src/provider.dart';
 
 import '../helpers/Constant.dart';
-import '../helpers/Icons.dart';
-import '../main.dart';
 import '../provider/navigationBarProvider.dart';
 import '../widgets/load_web_view.dart';
 import '../widgets/no_internet.dart';
@@ -31,8 +30,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     duration: const Duration(milliseconds: 500),
   );
 
+  Animation<double>? _animation;
+  AnimationController? _animationController;
+
   @override
   void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 260),
+    );
+
+    final curvedAnimation =
+        CurvedAnimation(curve: Curves.easeInOut, parent: _animationController!);
+    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+
     super.initState();
     NoInternet.initConnectivity().then(
       (value) => setState(() {
@@ -72,35 +83,57 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Flexible(
             child: _connectionStatus == 'ConnectivityResult.none'
                 ? NoInternetWidget()
-                : LoadWebView(webinitialUrl, true),
+                : WebPageSelectionScreen(),
           ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: showNavigationBar
-          ? FadeTransition(
-              opacity: Tween<double>(begin: 1.0, end: 0.0).animate(
-                  CurvedAnimation(
-                      parent: navigationContainerAnimationController,
-                      curve: Curves.easeInOut)),
-              child: SlideTransition(
-                position: Tween<Offset>(
-                        begin: Offset.zero, end: const Offset(0.0, 1.0))
-                    .animate(CurvedAnimation(
-                        parent: navigationContainerAnimationController,
-                        curve: Curves.easeInOut)),
-                child: FloatingActionButton(
-                  child: Lottie.asset(
-                    Theme.of(context).colorScheme.settingsIcon,
-                    height: 30,
-                    repeat: true,
+          ? Container(
+              margin: EdgeInsets.only(bottom: 50),
+              child: FloatingActionBubble(
+                items: <Bubble>[
+                  // Floating action menu item
+                  Bubble(
+                    title: "Back",
+                    iconColor: Colors.white,
+                    bubbleColor: Colors.blue,
+                    icon: Icons.arrow_back,
+                    titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+                    onPress: () {
+                      _animationController!.reverse();
+                    },
                   ),
-                  onPressed: () {
-                    setState(() {
-                      navigatorKey.currentState!.pushNamed('settings');
-                    });
-                  },
-                ),
+                  // Floating action menu item
+                  Bubble(
+                    title: "Home",
+                    iconColor: Colors.white,
+                    bubbleColor: Colors.blue,
+                    icon: Icons.home,
+                    titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+                    onPress: () {
+                      _animationController!.reverse();
+                    },
+                  ),
+                  //Floating action menu item
+                  Bubble(
+                    title: "Refresh",
+                    iconColor: Colors.white,
+                    bubbleColor: Colors.blue,
+                    icon: Icons.refresh,
+                    titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+                    onPress: () {
+                      _animationController!.reverse();
+                    },
+                  ),
+                ],
+                onPress: () => _animationController!.isCompleted
+                    ? _animationController!.reverse()
+                    : _animationController!.forward(),
+                iconColor: Colors.blue,
+                backGroundColor: Colors.white,
+                iconData: Icons.settings,
+                animation: _animation!,
               ),
             )
           : null,
