@@ -2,14 +2,13 @@
 import 'dart:async';
 
 import 'package:connectivity/connectivity.dart';
-import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
+import 'package:prime_web/helpers/Constant.dart';
 import 'package:prime_web/screens/webpage_selection_screen.dart';
+import 'package:prime_web/widgets/load_web_view.dart';
 import 'package:provider/src/provider.dart';
 
-import '../helpers/Constant.dart';
 import '../provider/navigationBarProvider.dart';
-import '../widgets/load_web_view.dart';
 import '../widgets/no_internet.dart';
 import '../widgets/no_internet_widget.dart';
 
@@ -32,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Animation<double>? _animation;
   AnimationController? _animationController;
+  ValueNotifier<bool> onPageClicked = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -83,11 +83,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Flexible(
             child: _connectionStatus == 'ConnectivityResult.none'
                 ? NoInternetWidget()
-                : WebPageSelectionScreen(),
+                : ValueListenableBuilder<bool>(
+                    builder: (BuildContext context, bool value, Widget? child) {
+                      if (value) {
+                        return LoadWebView(
+                          webinitialUrl,
+                          true,
+                          onPageSelected: (urlSelected) {
+                            onPageClicked.value = false;
+                          },
+                        );
+                      } else {
+                        return WebPageSelectionScreen(
+                          onPageSelected: (String urlSelected) {
+                            webinitialUrl = urlSelected;
+                            onPageClicked.value = true;
+                          },
+                        );
+                      }
+                    },
+                    valueListenable: onPageClicked,
+                  ),
           ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      /*floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: showNavigationBar
           ? Container(
               margin: EdgeInsets.only(bottom: 50),
@@ -136,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 animation: _animation!,
               ),
             )
-          : null,
+          : null,*/
     );
   }
 }

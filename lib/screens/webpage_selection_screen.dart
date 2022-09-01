@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class WebPageSelectionScreen extends StatefulWidget {
-  const WebPageSelectionScreen({Key? key}) : super(key: key);
+  final Function(String urlSelected) onPageSelected;
+
+  const WebPageSelectionScreen({Key? key, required this.onPageSelected})
+      : super(key: key);
 
   @override
   _WebPageSelectionScreenState createState() => _WebPageSelectionScreenState();
@@ -94,6 +97,6 @@ class _WebPageSelectionScreenState extends State<WebPageSelectionScreen> {
   }
 
   void openWebView({required String urlToLoad}) {
-
+    widget.onPageSelected(urlToLoad);
   }
 }
