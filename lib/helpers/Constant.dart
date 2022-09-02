@@ -1,7 +1,7 @@
-const appName = 'BrahminMilan';
+const appName = 'WCS Group';
 
-const String appbartitle = 'BrahminMilan';
-const String andoidPackageName = 'com.softcaliber.brahminmilan';
+const String appbartitle = 'WCS Group';
+const String andoidPackageName = 'com.softcaliber.wcsgroup';
 
 //change this url to set your URL in app
 String webinitialUrl = 'https://brahminmilan.com/';
@@ -28,7 +28,7 @@ const bool showInterstitialAds = false;
 const bool showNavigationBar = true;
 
 //To show/remove splash screen
-const bool showSplashScreen = true;
+const bool showSplashScreen = false;
 
 //To remove/display header/footer of website
 const bool hideHeader = false;

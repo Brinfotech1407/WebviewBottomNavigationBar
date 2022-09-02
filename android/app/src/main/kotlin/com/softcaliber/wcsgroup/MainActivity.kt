@@ -1,4 +1,4 @@
-package com.softcaliber.brahminmilan
+package com.softcaliber.wcsgroup
 
 import io.flutter.embedding.android.FlutterActivity
 

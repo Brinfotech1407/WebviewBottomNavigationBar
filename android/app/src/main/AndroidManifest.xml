@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
  xmlns:tools="http://schemas.android.com/tools"
-    package="com.softcaliber.brahminmilan">
+    package="com.softcaliber.wcsgroup">
     <queries>
       <!-- If your app opens https URLs -->
       <intent>
@@ -38,7 +38,7 @@
       <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
    <application
-        android:label="Brahmin Milan"
+        android:label="WCS Group"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android.usesCleartextTraffic="true"
